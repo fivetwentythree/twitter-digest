@@ -10,7 +10,6 @@ digest:
 nitter:
   # List of Nitter instances to try (in order of preference)
   instances:
-    - "https://nitter.privacydev.net"
     - "https://nitter.poast.org"
     - "https://nitter.net"
 
@@ -18,6 +17,7 @@ nitter:
 handles:
   - "davidbessis"
   - "danwwang"
+  - "thorstenball"
 
 # Optional: Custom prompt for Gemini (uncomment to customize)
 # gemini_prompt: |
