@@ -4,11 +4,11 @@ A free, GitHub Actions-powered tool that generates a daily digest website of twe
 
 ## Features
 
-- 📡 **RSS-based fetching** via Nitter instances (no Twitter API needed)
+- 🐦 **Twitter API v2** - Direct access to tweets (free tier: 100 requests/month)
 - 🤖 **AI-powered summaries** using Gemini 2.5 Flash
 - 🌐 **GitHub Pages hosting** - free static site with all your digests
 - ⏰ **Automated daily updates** via GitHub Actions
-- 🔄 **Fallback handling** for Nitter instances and Gemini API
+- 🎨 **Dark theme** - GitHub-inspired design
 
 ## Setup
 
@@ -19,9 +19,20 @@ git clone https://github.com/yourusername/twitter-digest.git
 cd twitter-digest
 ```
 
-### 2. Configure Twitter Handles
+### 2. Get Twitter API Access (Free)
 
-Edit `config/config.yaml` to add the Twitter handles you want to track:
+1. Go to [developer.twitter.com](https://developer.twitter.com/en/portal/dashboard)
+2. Create a new Project and App
+3. Go to "Keys and Tokens" → Generate **Bearer Token**
+
+### 3. Get Gemini API Key (Free)
+
+1. Go to [aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
+2. Click "Create API Key"
+
+### 4. Configure Twitter Handles
+
+Edit `config/config.yaml`:
 
 ```yaml
 handles:
@@ -30,103 +41,76 @@ handles:
   - "elonmusk"
 ```
 
-### 3. Add Gemini API Key
+### 5. Add GitHub Secrets
 
-Go to your repository → Settings → Secrets and variables → Actions → New repository secret
+Go to your repo → Settings → Secrets and variables → Actions → New repository secret
 
-| Secret Name | Description |
-|-------------|-------------|
-| `GEMINI_API_KEY` | Your Google Gemini API key ([get one here](https://aistudio.google.com/app/apikey)) |
+| Secret | Description |
+|--------|-------------|
+| `TWITTER_BEARER_TOKEN` | Your Twitter API Bearer Token |
+| `GEMINI_API_KEY` | Your Google Gemini API key |
 
-### 4. Enable GitHub Pages
+### 6. Enable GitHub Pages
 
 1. Go to repository Settings → Pages
 2. Under "Build and deployment", select **GitHub Actions** as the source
 
-### 5. Run the Workflow
+### 7. Run the Workflow
 
 Either wait for the scheduled run (7:00 AM UTC daily) or trigger manually:
-
 1. Go to Actions → Twitter Digest
 2. Click "Run workflow"
 
 Your digest will be available at `https://yourusername.github.io/twitter-digest/`
-
-## Adjust Schedule
-
-The workflow runs daily at 7:00 AM UTC by default. Edit `.github/workflows/twitter-digest.yml`:
-
-```yaml
-schedule:
-  - cron: "0 7 * * *"  # 7:00 AM UTC daily
-```
-
-Use [crontab.guru](https://crontab.guru/) for custom schedules.
 
 ## Running Locally
 
 ```bash
 # Create virtual environment
 python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+source venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Set API key
-export GEMINI_API_KEY="your-api-key"
+# Set environment variables
+export GEMINI_API_KEY="your-gemini-key"
+export TWITTER_BEARER_TOKEN="your-twitter-bearer-token"
 
 # Run
 python -m twitter_digest.main
 
-# Open the result
+# View result
 open docs/index.html
 ```
 
-## Custom AI Prompt
+## Customization
 
-Customize the Gemini prompt in `config/config.yaml`:
+### Adjust Schedule
+
+Edit `.github/workflows/twitter-digest.yml`:
+
+```yaml
+schedule:
+  - cron: "0 7 * * *"  # 7:00 AM UTC daily
+```
+
+### Custom AI Prompt
+
+Add to `config/config.yaml`:
 
 ```yaml
 gemini_prompt: |
-  You are an expert analyst. For each Twitter account:
-  1. Summarize the key points
-  2. Explain any technical terms
-  3. Provide relevant context
+  Your custom prompt here...
 ```
 
-## Project Structure
+## Twitter API Free Tier Limits
 
-```
-twitter-digest/
-├── .github/workflows/
-│   └── twitter-digest.yml    # GitHub Actions workflow
-├── config/
-│   └── config.yaml           # Configuration
-├── docs/                     # Generated site (GitHub Pages)
-├── twitter_digest/
-│   ├── main.py               # Entry point
-│   ├── config_loader.py      # Config loading
-│   ├── nitter_client.py      # RSS fetching
-│   ├── gemini_client.py      # AI summarization
-│   └── html_builder.py       # HTML generation
-├── requirements.txt
-└── README.md
-```
+- 100 requests per month
+- ~10 tweets per user lookup
+- Works great for small lists (5-10 handles)
 
-## Troubleshooting
-
-### No tweets found
-- Nitter instances may be down. Add more to `config.yaml`
-- Check if handles are valid and public
-
-### Gemini API errors
-- Verify your API key
-- Check usage limits at [AI Studio](https://aistudio.google.com/)
-
-### Pages not updating
-- Check Actions tab for errors
-- Ensure Pages is set to deploy from "GitHub Actions"
+For larger lists, consider Twitter API Basic ($100/month) or Pro.
 
 ## License
 

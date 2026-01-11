@@ -35,6 +35,7 @@ jobs:
       - name: Run Twitter Digest
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TWITTER_BEARER_TOKEN: ${{ secrets.TWITTER_BEARER_TOKEN }}
         run: |
           python -m twitter_digest.main
 

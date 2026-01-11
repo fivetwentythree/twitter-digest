@@ -87,6 +87,7 @@ class Config:
     handles: list[str] = field(default_factory=list)
     gemini_api_key: str = ""
     gemini_prompt: Optional[str] = None
+    twitter_bearer_token: str = ""
 
     def validate(self) -> None:
         """Validate the configuration."""
@@ -100,10 +101,12 @@ class Config:
         if not self.gemini_api_key:
             errors.append("GEMINI_API_KEY not set")
 
+        if not self.twitter_bearer_token:
+            errors.append("TWITTER_BEARER_TOKEN not set")
 
 
-        if not self.nitter.instances:
-            errors.append("No Nitter instances configured")
+
+
 
         if errors:
             raise ValueError("Configuration errors:\n" + "\n".join(f"  - {e}" for e in errors))
@@ -143,6 +146,7 @@ def load_config(config_path: str = "config/config.yaml") -> Config:
         handles=data.get("handles", []),
         gemini_api_key=os.getenv("GEMINI_API_KEY", ""),
         gemini_prompt=data.get("gemini_prompt"),
+        twitter_bearer_token=os.getenv("TWITTER_BEARER_TOKEN", ""),
     )
 
     return config

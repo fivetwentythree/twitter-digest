@@ -6,7 +6,7 @@ from datetime import datetime
 from pathlib import Path
 
 from .config_loader import load_config
-from .nitter_client import fetch_all_tweets
+from .twitter_client import fetch_all_tweets
 from .gemini_client import generate_digest, create_daily_digest, create_fallback_digest
 from .html_builder import build_digest_html, build_index_html
 
@@ -37,10 +37,10 @@ def main(config_path: str = "config/config.yaml") -> int:
         logger.error(f"Configuration error: {e}")
         return 1
 
-    logger.info("Fetching tweets from Nitter RSS feeds...")
+    logger.info("Fetching tweets from Twitter API...")
     tweets_by_handle = fetch_all_tweets(
         handles=config.handles,
-        instances=config.nitter.instances,
+        bearer_token=config.twitter_bearer_token,
         lookback_hours=config.digest.lookback_hours,
         max_tweets_per_handle=config.digest.max_tweets_per_handle,
     )
