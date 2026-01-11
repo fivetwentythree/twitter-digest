@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Twitter Digest</title>
+    <title>Twitter Morning Digest</title>
     <style>
         :root {
             --bg: #0d1117;
@@ -31,17 +31,21 @@
             padding: 1rem 1.5rem;
             border-radius: 8px;
             margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         .digest-list a { color: var(--accent); text-decoration: none; font-weight: 500; }
         .digest-list a:hover { text-decoration: underline; }
+        .digest-list .meta { color: var(--muted); font-size: 0.85rem; }
         footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.8rem; }
     </style>
 </head>
 <body>
-    <h1>Twitter Digest</h1>
+    <h1>Twitter Morning Digest</h1>
     <p class="subtitle">Daily AI-powered summaries of tweets from people you follow</p>
     <ul class="digest-list">
-        <li>No digests yet. Check back after the first scheduled run!</li>
+        <li><a href="2026-01-11.html">Sunday, January 11, 2026</a></li>
     </ul>
     <footer>
         Powered by GitHub Actions + Gemini 2.5 Flash
